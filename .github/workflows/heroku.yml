@@ -1,0 +1,40 @@
+name: Push to heroku
+on:
+  push:
+    branches:
+      - master
+env:
+  MYSQL_USER: ${{ secrets.MYSQL_USER }}
+  MYSQL_PATH: ${{ secrets.MYSQL_PATH }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+  MYSQL_QUERY_LOGS: ${{ secrets.MYSQL_QUERY_LOGS }}
+  HOST: ${{ secrets.HOST }}
+  DOMAIN: ${{ secrets.DOMAIN }}
+  PORT: ${{ secrets.PORT }}
+  NODE_ENV: ${{ secrets.NODE_ENV }}
+  API_KEY: ${{ secrets.API_KEY }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build and Test
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+      - run: npm install
+      - run: npm test
+      - run: npm run build
+      - name: Login to Heroku Container registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Push to heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push -a iqx web
+      - name: Creating Release
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a iqx web
