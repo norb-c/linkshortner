@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import URLService from '../services/url.service';
+import URLService from '../services/UrlService';
 
-class URLController {
+class UrlController {
   private service = new URLService();
 
   public redirectToLongUrl: RequestHandler = async (req, res, next) => {
@@ -46,4 +46,4 @@ class URLController {
   };
 }
 
-export default URLController;
+export default UrlController;

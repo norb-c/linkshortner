@@ -1,6 +1,6 @@
-import { URLAttributes } from '../interfaces/url.interfaces';
+import { IURLAttributes } from '../interfaces/url.interface';
 import { BadRequestError, ConflictError } from '../exceptions';
-import { URLRepository } from '../repositories/url.repositories';
+import { URLRepository } from '../repositories/UrlRepository';
 import { createHash } from 'crypto';
 
 class URLService {
@@ -18,11 +18,11 @@ class URLService {
     const key = await this.repository.findURL({ shortKey, deletedFlag: false });
     if (key) {
       shortKey = this.hash(originalUrl, shortKey.length + 1);
-      const url: URLAttributes = await this.repository.findURL({ shortKey, deletedFlag: false });
+      const url: IURLAttributes = await this.repository.findURL({ shortKey, deletedFlag: false, completedAt: new Date() });
       if (url) throw new ConflictError(`A matching url found with ${url.shortKey}`);
     }
 
-    const urlCreated = await this.repository.createURL({ shortKey, originalUrl });
+    const urlCreated = await this.repository.createURL({ shortKey, originalUrl, completedAt: new Date() });
 
     const response = {
       shortUrl: `${process.env.HOST}${urlCreated.shortKey}`,

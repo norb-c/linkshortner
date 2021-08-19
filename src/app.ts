@@ -3,8 +3,6 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as hpp from 'hpp';
 import * as logger from 'morgan';
-import * as swaggerJsDocs from 'swagger-jsdoc';
-import * as swaggerUI from 'swagger-ui-express';
 import { Errors } from './constants/errors';
 import { handleErrors } from './middlewares/error.middleware';
 import { sequelize } from './models/index.model';
@@ -51,9 +49,6 @@ class App {
   }
 
   private initializeRoutes() {
-    const swaggerDocs = swaggerJsDocs(this.getSwaggerOptions());
-    this.app.use('/api/v1/docs', swaggerUI.serve);
-    this.app.get('/api/v1/docs', swaggerUI.setup(swaggerDocs));
     this.app.use('/', routes());
 
     this.app.all('*', (req, res) => {
@@ -69,25 +64,6 @@ class App {
 
   private initializeErrorHandling() {
     this.app.use(handleErrors);
-  }
-
-  private getSwaggerOptions(): swaggerJsDocs.Options {
-    return {
-      swaggerDefinition: {
-        openapi: '3.0.0',
-        host: process.env.HOST,
-        info: {
-          title: 'XXXX',
-          description: 'XXXXX API',
-          version: '1.0.0',
-          contact: {
-            name: 'Chigozie Madubuko',
-            email: 'chigoziemadubuko@gmail.com'
-          }
-        }
-      },
-      apis: ['./documentation.yaml']
-    };
   }
 }
 

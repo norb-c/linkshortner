@@ -1,14 +1,15 @@
 import { Router } from 'express';
-import URLController from '../../controllers/url.controller';
+import UrlController from '../../controllers/UrlController';
 import authMiddleware from '../../middlewares/auth.middleware';
-import { createURLRoutesValidation } from '../../validations/urls';
+import { validateSchema } from '../../middlewares/validator.middleware';
+import { createUrlSchema, deleteUrlSchema } from '../../validations/urlSchema';
 
 const router = Router();
 
 router.use(authMiddleware);
 
-const urlController = new URLController();
-router.post('/', createURLRoutesValidation(), urlController.createShortKey);
-router.delete('/:id', urlController.deleteShortKey);
+const urlController = new UrlController();
+router.post('/', validateSchema(createUrlSchema), urlController.createShortKey);
+router.delete('/:id', validateSchema(deleteUrlSchema), urlController.deleteShortKey);
 
 export { router as urlRoutes };

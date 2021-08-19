@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import { logger } from '../utils/logger';
-import URL from './url.model';
+import URL from './UrlModel';
 
 export const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
   host: process.env.MYSQL_PATH,

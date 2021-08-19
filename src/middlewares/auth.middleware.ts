@@ -1,15 +1,14 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Errors } from '../constants/errors';
 import { AuthenticationError } from '../exceptions';
-import { RequestWithUser } from '../interfaces/auth.interface';
 
-async function authMiddleware(req: RequestWithUser, res: Response, next: NextFunction) {
+async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const headers = req.headers;
 
   try {
     if (headers && headers.secret_key) {
       const apiKey: string = process.env.API_KEY;
-      const secret: string = headers.secret_key;
+      const secret = headers.secret_key as string;
 
       if (apiKey !== secret) {
         throw new AuthenticationError(Errors.INVALID_AUTHORIZATION_TOKEN);

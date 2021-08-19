@@ -1,10 +1,9 @@
-// import { Transaction, TransactionOptions } from 'sequelize';
-// import { sequelize } from './sequelize';
+import { Transaction, TransactionOptions } from 'sequelize';
+import { sequelize } from '../models/index.model';
 
-// export function databaseTransaction<T>(callback: (t: Transaction) => Promise<any>): Promise<T>;
-// export function databaseTransaction(options?: TransactionOptions): Promise<Transaction>;
+export function databaseTransaction<T>(callback: (t: Transaction) => Promise<T>): Promise<T>;
+export function databaseTransaction(options?: TransactionOptions): Promise<Transaction>;
 
-// // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-// export function databaseTransaction(callback?: any): Promise<any> {
-//   return sequelize.transaction(callback);
-// }
+export function databaseTransaction(callback?: any): Promise<any> {
+  return sequelize.transaction(callback);
+}

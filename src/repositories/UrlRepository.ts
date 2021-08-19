@@ -1,26 +1,26 @@
 import { FindAttributeOptions, Transaction, WhereOptions } from 'sequelize';
-import { URLAttributes } from '../interfaces/url.interfaces';
-import URLModel from '../models/url.model';
+import { IURLAttributes } from '../interfaces/url.interface';
+import URLModel from '../models/UrlModel';
 
 export class URLRepository {
   private model = URLModel;
 
   public async findURL(
-    whereOptions: WhereOptions<URLAttributes>,
+    whereOptions: WhereOptions<IURLAttributes>,
     attributesOptions?: FindAttributeOptions
-  ): Promise<URLAttributes> {
+  ): Promise<IURLAttributes> {
     return this.model.findOne({ where: whereOptions, ...(attributesOptions && { attributes: attributesOptions }) });
   }
 
-  public async createURL(payload: URLAttributes, dbTransaction?: Transaction): Promise<URLAttributes> {
+  public async createURL(payload: IURLAttributes, dbTransaction?: Transaction): Promise<IURLAttributes> {
     return this.model.create(payload, { ...(dbTransaction && { transaction: dbTransaction }) });
   }
 
   public async updateURL(
-    payload: Partial<URLAttributes>,
-    whereOptions: WhereOptions<URLAttributes>,
+    payload: Partial<IURLAttributes>,
+    whereOptions: WhereOptions<IURLAttributes>,
     dbTransaction?: Transaction
-  ): Promise<[number, URLAttributes[]]> {
+  ): Promise<[number, IURLAttributes[]]> {
     return this.model.update(payload, { where: whereOptions, ...(dbTransaction && { transaction: dbTransaction }) });
   }
 

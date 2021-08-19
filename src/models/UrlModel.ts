@@ -1,12 +1,12 @@
 import { AllowNull, AutoIncrement, Column, DataType, Default, Model, PrimaryKey, Table } from 'sequelize-typescript';
-import { URLAttributes } from '../interfaces/url.interfaces';
+import { IURLAttributes } from '../interfaces/url.interface';
 
 @Table({
   modelName: 'url',
   timestamps: true,
   paranoid: true
 })
-export default class URL extends Model<URLAttributes> {
+export default class URL extends Model<IURLAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column
@@ -19,6 +19,10 @@ export default class URL extends Model<URLAttributes> {
   @AllowNull(false)
   @Column(DataType.STRING(255))
   originalUrl: string;
+
+  @AllowNull(true)
+  @Column(DataType.DATE())
+  completedAt: Date;
 
   @AllowNull(true)
   @Default(false)
