@@ -1,9 +1,8 @@
 export interface IURLAttributes {
   id?: number;
-  shortKey: string;
-  originalUrl: string;
-  completedAt?: Date;
-  deletedFlag?: boolean;
-  deletedAt?: Date;
-  createdAt?: Date;
+  short_key: string;
+  original_url: string;
+  deleted_flag?: boolean;
+  deleted_at?: Date;
+  created_at?: Date;
 }

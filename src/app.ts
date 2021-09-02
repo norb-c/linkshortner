@@ -1,11 +1,10 @@
-import * as cors from 'cors';
-import * as express from 'express';
-import * as helmet from 'helmet';
-import * as hpp from 'hpp';
-import * as logger from 'morgan';
-import { Errors } from './constants/errors';
+import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import hpp from 'hpp';
+import logger from 'morgan';
+import { Errors } from './common/errors';
 import { handleErrors } from './middlewares/error.middleware';
-import { sequelize } from './models/index.model';
 import { routes } from './routes/index.routes';
 
 class App {
@@ -43,7 +42,6 @@ class App {
       this.app.use(logger('dev'));
       this.app.use(cors({ origin: true, credentials: true }));
     }
-    sequelize.sync({ force: false });
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }

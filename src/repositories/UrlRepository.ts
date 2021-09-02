@@ -1,9 +1,9 @@
 import { FindAttributeOptions, Transaction, WhereOptions } from 'sequelize';
 import { IURLAttributes } from '../interfaces/url.interface';
-import URLModel from '../models/UrlModel';
+import { Url as UrlModel } from '../models/Url';
 
 export class URLRepository {
-  private model = URLModel;
+  private model = UrlModel;
 
   public async findURL(
     whereOptions: WhereOptions<IURLAttributes>,

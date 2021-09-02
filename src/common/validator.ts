@@ -1,5 +1,5 @@
 import joi, { ValidationErrorItem } from 'joi';
-import { Errors } from '../constants/errors';
+import { Errors } from './errors';
 import { BadRequestError } from '../exceptions';
 
 const getErrMessage = (item: ValidationErrorItem): string => {

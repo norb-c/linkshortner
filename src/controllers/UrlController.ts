@@ -2,7 +2,11 @@ import { RequestHandler } from 'express';
 import URLService from '../services/UrlService';
 
 class UrlController {
-  private service = new URLService();
+  private service: URLService;
+
+  constructor() {
+    this.service = new URLService();
+  }
 
   public redirectToLongUrl: RequestHandler = async (req, res, next) => {
     const shortKey: string = req.params.id;
@@ -39,7 +43,7 @@ class UrlController {
 
     try {
       const data = await this.service.deleteShortKey(shortKey);
-      res.status(200).json({ data: { deleted: data }, message: 'deleted' });
+      res.status(204).json({ data: { deleted: data }, message: 'deleted' });
     } catch (error) {
       next(error);
     }

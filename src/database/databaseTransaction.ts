@@ -1,5 +1,5 @@
 import { Transaction, TransactionOptions } from 'sequelize';
-import { sequelize } from '../models/index.model';
+import { sequelize } from './sequelize';
 
 export function databaseTransaction<T>(callback: (t: Transaction) => Promise<T>): Promise<T>;
 export function databaseTransaction(options?: TransactionOptions): Promise<Transaction>;

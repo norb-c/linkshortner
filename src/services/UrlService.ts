@@ -4,40 +4,45 @@ import { URLRepository } from '../repositories/UrlRepository';
 import { createHash } from 'crypto';
 
 class URLService {
-  private repository: URLRepository = new URLRepository();
+  private repository: URLRepository;
+
+  constructor() {
+    this.repository = new URLRepository();
+  }
 
   public async getURLByShortKey(shortKey: string): Promise<string> {
-    const url = await this.repository.findURL({ shortKey }, ['originalUrl']);
+    const url = await this.repository.findURL({ short_key: shortKey }, ['original_url']);
     if (!url) return '/';
 
-    return url.originalUrl;
+    return url.original_url;
   }
 
   public async shortenURL(originalUrl: string): Promise<{ [key: string]: string }> {
     let shortKey = this.hash(originalUrl);
-    const key = await this.repository.findURL({ shortKey, deletedFlag: false });
+    const key = await this.repository.findURL({ short_key: shortKey, deleted_flag: false });
     if (key) {
       shortKey = this.hash(originalUrl, shortKey.length + 1);
-      const url: IURLAttributes = await this.repository.findURL({ shortKey, deletedFlag: false, completedAt: new Date() });
-      if (url) throw new ConflictError(`A matching url found with ${url.shortKey}`);
+      const url: IURLAttributes = await this.repository.findURL({ short_key: shortKey, deleted_flag: false });
+      if (url) throw new ConflictError(`A matching url found with ${url.short_key}`);
     }
 
-    const urlCreated = await this.repository.createURL({ shortKey, originalUrl, completedAt: new Date() });
+    const urlCreated = await this.repository.createURL({
+      short_key: shortKey,
+      original_url: originalUrl
+    });
 
     const response = {
-      shortUrl: `${process.env.HOST}${urlCreated.shortKey}`,
+      shortUrl: `${process.env.HOST}${urlCreated.short_key}`,
       originalUrl
     };
     return response;
   }
 
   public async deleteShortKey(shortKey: string): Promise<number> {
-    console.log(shortKey);
-
-    const deletedKey = await this.repository.findURL({ shortKey, deletedFlag: false });
+    const deletedKey = await this.repository.findURL({ short_key: shortKey, deleted_flag: false });
     if (!deletedKey) throw new BadRequestError('Short key does not exist');
 
-    const deleteUrl = await this.repository.updateURL({ deletedFlag: true, deletedAt: new Date() }, { shortKey });
+    const deleteUrl = await this.repository.updateURL({ deleted_flag: true, deleted_at: new Date() }, { short_key: shortKey });
     if (!deleteUrl) throw new BadRequestError('Short key does not exist');
 
     return deleteUrl[0];

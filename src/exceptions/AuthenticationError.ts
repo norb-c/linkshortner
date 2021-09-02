@@ -1,5 +1,5 @@
 import DomainError from './DomainError';
-import { Errors } from '../constants/errors';
+import { Errors } from '../common/errors';
 
 export default class AuthenticationError extends DomainError {
   protected error_name = 'not_authenticated';
