@@ -5,3 +5,4 @@ coverage
 package-lock.json
 logs
 *.log
+.DS_STORE
