@@ -3,6 +3,10 @@ import { Sequelize, Options } from 'sequelize';
 const databaseConfig: Options = require('../config/mysql')[process.env.NODE_ENV || 'development'];
 
 const { database, username, password, ...sequelizeDatabaseConfig } = databaseConfig;
-const sequelize = new Sequelize(database, username, password, sequelizeDatabaseConfig);
-
+let sequelize: Sequelize;
+if (process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(process.env.DATABASE_URL, sequelizeDatabaseConfig);
+} else {
+  sequelize = new Sequelize(database, username, password, sequelizeDatabaseConfig);
+}
 export { sequelize };

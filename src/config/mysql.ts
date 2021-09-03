@@ -32,6 +32,7 @@ module.exports = {
   },
   production: {
     ...databaseConfig,
-    logging: false
+    dialect: 'postgres',
+    logging: true
   }
 };
