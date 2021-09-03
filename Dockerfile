@@ -8,8 +8,6 @@ RUN npm install --only=prod
 
 COPY . .
 
-RUN npm run build
-
 ENV PORT 80
 
 EXPOSE 80
