@@ -31,8 +31,17 @@ module.exports = {
     ...databaseConfig
   },
   production: {
-    ...databaseConfig,
-    dialect: 'postgres',
-    logging: true
+    host: process.env.DATABASE_URL,
+    define: {
+      underscored: true,
+      timestamps: true,
+      freezeTableName: true
+    },
+    logQueryParameters: true,
+    // @ts-ignore
+    logging: str => {
+      return process.env.SHOW_MYSQL_DATABASE_QUERIES === 'true' ? console.log(`[DATABASE QUERY ${new Date()}] => ${str}`) : null;
+    },
+    dialect: 'postgres'
   }
 };
