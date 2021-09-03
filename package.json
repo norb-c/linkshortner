@@ -6,7 +6,8 @@
   "main": "dist/server.js",
   "keywords": [],
   "scripts": {
-    "start": "NODE_ENV=production npm run migrate && node dist/server.js",
+    "start": "NODE_ENV=production npm run deploy && node dist/server.js",
+    "deploy": "npm run build && npm run migrate",
     "migrate": "sequelize db:migrate",
     "start:dev": "ts-node-dev --files --respawn ./src/server.ts",
     "test": "jest --forceExit --setupFiles dotenv/config --detectOpenHandles --coverage",
