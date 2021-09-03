@@ -28,7 +28,8 @@ Url.init(
     },
     short_key: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     original_url: {
       type: DataTypes.STRING(50),

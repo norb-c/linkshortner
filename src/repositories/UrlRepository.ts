@@ -1,8 +1,9 @@
 import { FindAttributeOptions, Transaction, WhereOptions } from 'sequelize';
+import { generateRandomString } from '../common/utilities';
 import { IURLAttributes } from '../interfaces/url.interface';
 import { Url as UrlModel } from '../models/Url';
 
-export class URLRepository {
+export default class URLRepository {
   private model = UrlModel;
 
   public async findURL(
@@ -26,5 +27,14 @@ export class URLRepository {
 
   public async deleteURL(id: number, dbTransaction?: Transaction): Promise<number> {
     return this.model.destroy({ where: { id }, ...(dbTransaction && { transaction: dbTransaction }) });
+  }
+
+  public async generateUniqueShortKey(length = 4): Promise<string> {
+    let randomString = generateRandomString(length);
+    const urls = await this.model.findAll({ where: { short_key: randomString, deleted_flag: false } });
+    if (urls.length > 0) {
+      randomString = await this.generateUniqueShortKey(4);
+    }
+    return randomString;
   }
 }

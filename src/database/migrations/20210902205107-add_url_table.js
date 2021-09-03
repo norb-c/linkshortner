@@ -12,7 +12,8 @@ module.exports = {
       },
       short_key: {
         type: Sequelize.STRING(20),
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       original_url: {
         type: Sequelize.STRING(500),

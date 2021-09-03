@@ -10,12 +10,12 @@ import { routes } from './routes/index.routes';
 class App {
   public app: express.Application;
   public port: string | number;
-  public env: boolean;
+  public isProd: boolean;
 
   constructor() {
     this.app = express();
     this.port = process.env.PORT || 3000;
-    this.env = process.env.NODE_ENV === 'production' ? true : false;
+    this.isProd = process.env.NODE_ENV === 'production' ? true : false;
 
     this.initializeMiddlewares();
     this.initializeRoutes();
@@ -33,7 +33,7 @@ class App {
   }
 
   private initializeMiddlewares() {
-    if (this.env) {
+    if (this.isProd) {
       this.app.use(hpp());
       this.app.use(helmet());
       this.app.use(logger('combined'));
