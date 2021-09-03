@@ -13,10 +13,10 @@ npm install
 * Configure Database credentials
 
 ```env
-MYSQL_USER=root
-MYSQL_PASSWORD=root
-MYSQL_PATH=localhost
-MYSQL_DATABASE=shortener
+DB_PASSWORD=root
+DB_USER=root
+DB_HOST=localhost
+DB_NAME=shortener
 HOST=http://localhost/
 DOMAIN=localhost
 PORT=80

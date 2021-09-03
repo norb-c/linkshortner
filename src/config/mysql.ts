@@ -2,11 +2,11 @@
 require('dotenv/config');
 
 const databaseConfig = {
-  host: process.env.MYSQL_PATH || '127.0.0.1',
-  username: process.env.MYSQL_USER || 'root',
-  password: process.env.MYSQL_PASSWORD || 'password',
-  database: process.env.MYSQL_DATABASE || '',
-  port: Number(process.env.MYSQL_DATABASE_PORT || '3306'),
+  host: process.env.DB_HOST || '127.0.0.1',
+  username: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'password',
+  database: process.env.DB_NAME || 'shortener',
+  port: Number(process.env.DB_PORT || '3306'),
   dialect: 'mysql',
   define: {
     underscored: true,
@@ -16,7 +16,7 @@ const databaseConfig = {
   logQueryParameters: true,
   // @ts-ignore
   logging: str => {
-    return process.env.SHOW_MYSQL_DATABASE_QUERIES === 'true' ? console.log(`[DATABASE QUERY ${new Date()}] => ${str}`) : null;
+    return process.env.SHOW_DB_NAME_QUERIES === 'true' ? console.log(`[DATABASE QUERY ${new Date()}] => ${str}`) : null;
   }
 };
 
@@ -31,17 +31,7 @@ module.exports = {
     ...databaseConfig
   },
   production: {
-    host: process.env.DATABASE_URL,
-    define: {
-      underscored: true,
-      timestamps: true,
-      freezeTableName: true
-    },
-    logQueryParameters: true,
-    // @ts-ignore
-    logging: str => {
-      return process.env.SHOW_MYSQL_DATABASE_QUERIES === 'true' ? console.log(`[DATABASE QUERY ${new Date()}] => ${str}`) : null;
-    },
+    ...databaseConfig,
     dialect: 'postgres'
   }
 };
