@@ -1,4 +1,4 @@
-# [Link Shortener API](https://iqx.herokuapp.com/api/v1/docs/)
+# [Link Shortener API](https://linkshortner-starter.herokuapp.com/YmXz)
 
 This is a simple link shortener API that takes a long URL and returns the equivalent short URL
 
