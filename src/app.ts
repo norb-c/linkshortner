@@ -2,9 +2,9 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
-import logger from 'morgan';
 import { Errors } from './common/errors';
 import { handleErrors } from './middlewares/error.middleware';
+import requestLogger from './middlewares/requestLogger.middleware';
 import { routes } from './routes/index.routes';
 
 class App {
@@ -36,14 +36,13 @@ class App {
     if (this.isProd) {
       this.app.use(hpp());
       this.app.use(helmet());
-      this.app.use(logger('combined'));
       this.app.use(cors({ origin: process.env.DOMAIN, credentials: true }));
     } else {
-      this.app.use(logger('dev'));
       this.app.use(cors({ origin: true, credentials: true }));
     }
-    this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(express.json());
+    this.app.use(requestLogger);
   }
 
   private initializeRoutes() {

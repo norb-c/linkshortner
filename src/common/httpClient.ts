@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import https from 'https';
-import { logger } from './logger';
+import logger from './logger';
 import { Errors } from './errors';
 import { ServiceUnavailableError } from '../exceptions';
 
@@ -32,7 +32,7 @@ export class HttpClient {
 
     this.instance.interceptors.response.use(
       (response: any): any => {
-        logger.info(`Response: ${response.config.method.toUpperCase()} ${response.config.url} ${response.status}`);
+        logger.info(`HTTP Response: ${response.config.method.toUpperCase()} ${response.config.url} ${response.status}`);
 
         return {
           data: response.data,
@@ -44,18 +44,18 @@ export class HttpClient {
       },
       (error: any): any => {
         if (!error.response) {
-          logger.error('Response: Network Error');
+          logger.error('HTTP Response: Network Error');
         } else {
-          logger.error('Response error', error.response.statusTexts);
+          logger.error('HTTP Response error', error.response.statusTexts);
         }
 
         if (error.code === 'ECONNABORTED') {
-          logger.error('Response: ECONNABORTED, timed out.', error);
+          logger.error('HTTP Response: ECONNABORTED, timed out.', error);
           throw new ServiceUnavailableError(Errors.SERVICE_UNAVAILABLE);
         }
 
         if (error.code === 'ENOTFOUND') {
-          logger.error('Response: ENOTFOUND', error);
+          logger.error('HTTP Response: ENOTFOUND', error);
           throw new ServiceUnavailableError(Errors.SERVICE_UNAVAILABLE);
         }
 

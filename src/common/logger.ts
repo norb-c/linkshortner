@@ -1,26 +1,30 @@
-import { createLogger, transports, format, config } from 'winston';
+import pino, { LoggerOptions } from 'pino';
+import pinoElastic from 'pino-elasticsearch';
 
-const logger = createLogger({
-  level: 'info',
-  levels: config.npm.levels,
-  format: format.combine(
-    format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss'
-    }),
-    format.prettyPrint()
-  ),
-  transports: [
-    new transports.File({ filename: 'logs/errors.log', level: 'error', silent: process.env.NODE_ENV === 'test' }),
-    new transports.File({ filename: 'logs/combined.log', silent: process.env.NODE_ENV === 'test' })
-  ]
+const streamToElastic = pinoElastic({
+  index: 'linkshortner',
+  consistency: 'one',
+  node: process.env.ELASTIC_URL,
+  'es-version': 7,
+  'flush-bytes': 1000
 });
 
-if (process.env.SHOW_APPLICATION_LOGS === 'true') {
-  logger.add(
-    new transports.Console({
-      format: format.simple()
-    })
-  );
-}
+// Capture errors like unable to connect Elasticsearch instance.
+streamToElastic.on('error', error => {
+  console.error('Elasticsearch client error:', error);
+});
+// Capture errors returned from Elasticsearch, "it will be called for everytime a document can't be indexed".
+streamToElastic.on('insertError', error => {
+  console.error('Elasticsearch server error:', error);
+});
 
-export { logger };
+const customStreams = process.env.NODE_ENV === 'development' ? streamToElastic : process.stdout;
+
+const options: LoggerOptions = {
+  redact: ['request.body.sensitive'],
+  timestamp: pino.stdTimeFunctions.isoTime
+};
+
+const logger = pino(options, customStreams);
+
+export default logger;

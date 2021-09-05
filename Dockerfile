@@ -12,8 +12,8 @@ RUN npm run build
 
 RUN npm install --only=prod
 
-ENV PORT 80
+ENV PORT 3000
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD ["sh", "-c", "npm run start"]
