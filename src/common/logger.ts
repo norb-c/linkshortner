@@ -4,7 +4,7 @@ import pinoElastic from 'pino-elasticsearch';
 const streamToElastic = pinoElastic({
   index: 'linkshortner',
   consistency: 'one',
-  node: process.env.ELASTIC_URL,
+  node: process.env.ELASTIC_URL || 'http://localhost:9200',
   'es-version': 7,
   'flush-bytes': 1000
 });
