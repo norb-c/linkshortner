@@ -40,6 +40,7 @@ class App {
     } else {
       this.app.use(cors({ origin: true, credentials: true }));
     }
+    this.app.set('trust proxy', true);
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(requestLogger);
