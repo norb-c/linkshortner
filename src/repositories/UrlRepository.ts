@@ -1,9 +1,9 @@
 import { FindAttributeOptions, Transaction, WhereOptions } from 'sequelize';
 import { generateRandomString } from '../common/utilities';
-import { IURLAttributes } from '../interfaces/url.interface';
+import { IURLAttributes, IURLRepository } from '../interfaces/url.interface';
 import { Url as UrlModel } from '../models/Url';
 
-export default class URLRepository {
+export default class URLRepository implements IURLRepository {
   private model = UrlModel;
 
   public async findURL(
