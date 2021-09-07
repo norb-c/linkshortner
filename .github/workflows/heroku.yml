@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - inversify
 jobs:
   build:
     runs-on: ubuntu-latest
