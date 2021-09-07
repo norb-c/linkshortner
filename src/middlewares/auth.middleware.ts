@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Errors } from '../common/errors';
+import { applicationConfiguration } from '../config';
 import { AuthenticationError } from '../exceptions';
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -7,7 +8,7 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
 
   try {
     if (headers && headers.secret_key) {
-      const apiKey: string = process.env.API_KEY;
+      const apiKey: string = applicationConfiguration.apiKey;
       const secret = headers.secret_key as string;
 
       if (apiKey !== secret) {

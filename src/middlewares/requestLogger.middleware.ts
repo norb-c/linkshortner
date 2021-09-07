@@ -1,11 +1,12 @@
 import httpLogger from 'pino-http';
 import logger from '../common/logger';
+import { applicationConfiguration } from '../config';
 
 const requestLogger = httpLogger({
   logger,
   serializers: {
     req: req => ({
-      environment: process.env.NODE_ENV,
+      environment: applicationConfiguration.nodeEnv,
       method: req.method,
       url: req.url,
       query: req.query,
