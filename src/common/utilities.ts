@@ -25,3 +25,12 @@ export const generateRandomString = (length: number = 4): string => {
 
   return string;
 };
+
+export const responseFormat = (payload: any, message = 'success', code: string = null) => {
+  return {
+    status: true,
+    code,
+    message: message,
+    data: payload
+  };
+};

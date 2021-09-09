@@ -1,10 +1,11 @@
 import pino, { LoggerOptions } from 'pino';
 import pinoElastic from 'pino-elasticsearch';
+import { applicationConfiguration } from '../config';
 
 const streamToElastic = pinoElastic({
   index: 'linkshortner',
   consistency: 'one',
-  node: process.env.ELASTIC_URL || 'http://localhost:9200',
+  node: applicationConfiguration.service.elasticSearchUrl,
   'es-version': 7,
   'flush-bytes': 1000
 });
@@ -18,7 +19,7 @@ streamToElastic.on('insertError', error => {
   console.error('Elasticsearch server error:', error);
 });
 
-const customStreams = process.env.NODE_ENV === 'development' ? streamToElastic : process.stdout;
+const customStreams = applicationConfiguration.nodeEnv === 'development' ? streamToElastic : process.stdout;
 
 const options: LoggerOptions = {
   redact: ['request.body.sensitive'],

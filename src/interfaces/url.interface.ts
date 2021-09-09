@@ -19,5 +19,10 @@ export interface IURLRepository {
   ): Promise<[number, IURLAttributes[]]>;
 
   deleteURL(id: number, dbTransaction?: Transaction): Promise<number>;
-  generateUniqueShortKey(length: number): Promise<string>;
+  generateUniqueShortKey(length?: number): Promise<string>;
+}
+export interface IURLService {
+  getURLByShortKey(shortKey: string): Promise<string>;
+  shortenURL(originalUrl: string): Promise<{ [key: string]: string }>;
+  deleteShortKey(shortKey: string): Promise<number>;
 }

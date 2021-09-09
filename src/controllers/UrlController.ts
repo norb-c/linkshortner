@@ -1,18 +1,23 @@
+import { injectable } from 'inversify';
+import 'reflect-metadata';
+
 import { RequestHandler } from 'express';
 import URLService from '../services/UrlService';
+import { responseFormat } from '../common/utilities';
 
-class UrlController {
-  private service: URLService;
+@injectable()
+export default class UrlController {
+  private _service: URLService;
 
-  constructor() {
-    this.service = new URLService();
+  constructor(service: URLService) {
+    this._service = service;
   }
 
   public redirectToLongUrl: RequestHandler = async (req, res, next) => {
     const shortKey: string = req.params.id;
 
     try {
-      const originalUrl: string = await this.service.getURLByShortKey(shortKey);
+      const originalUrl: string = await this._service.getURLByShortKey(shortKey);
       res.redirect(originalUrl);
     } catch (error) {
       next(error);
@@ -31,8 +36,8 @@ class UrlController {
     const body = req.body;
 
     try {
-      const data = await this.service.shortenURL(body.originalUrl);
-      res.status(201).json({ message: 'success', data });
+      const data = await this._service.shortenURL(body.originalUrl);
+      res.status(201).json(responseFormat(data));
     } catch (error) {
       next(error);
     }
@@ -42,12 +47,10 @@ class UrlController {
     const shortKey: string = req.params.id;
 
     try {
-      const data = await this.service.deleteShortKey(shortKey);
-      res.status(204).json({ data: { deleted: data }, message: 'deleted' });
+      const data = await this._service.deleteShortKey(shortKey);
+      res.status(204).json(responseFormat({ data }));
     } catch (error) {
       next(error);
     }
   };
 }
-
-export default UrlController;
