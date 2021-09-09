@@ -12,11 +12,7 @@ const databaseConfig = {
     timestamps: true,
     freezeTableName: true
   },
-  logQueryParameters: true,
-  // @ts-ignore
-  logging: str => {
-    return process.env.SHOW_DB_NAME_QUERIES === 'true' ? console.log(`[DATABASE QUERY ${new Date()}] => ${str}`) : null;
-  }
+  logQueryParameters: true
 };
 
 module.exports = {
