@@ -1,14 +1,14 @@
 import { injectable } from 'inversify';
-import "reflect-metadata";
+import 'reflect-metadata';
 
 import { FindAttributeOptions, Transaction, WhereOptions } from 'sequelize';
 import { generateRandomString } from '../common/utilities';
 import { IURLAttributes, IURLRepository } from '../interfaces/url.interface';
-import { Url as UrlModel } from '../models/Url';
+import { Url } from '../models/Url';
 
 @injectable()
 export default class URLRepository implements IURLRepository {
-  private model = UrlModel;
+  private model = Url;
 
   public async findURL(
     whereOptions: WhereOptions<IURLAttributes>,
