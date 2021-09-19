@@ -1,5 +1,4 @@
 import { injectable } from 'inversify';
-import 'reflect-metadata';
 import { applicationConfiguration } from '../config';
 
 import { BadRequestError } from '../exceptions';
@@ -8,11 +7,7 @@ import URLRepository from '../repositories/UrlRepository';
 
 @injectable()
 export default class URLService implements IURLService {
-  private _repository: URLRepository;
-
-  constructor(repository: URLRepository) {
-    this._repository = repository;
-  }
+  constructor(private readonly _repository: URLRepository) {}
 
   public async getURLByShortKey(shortKey: string): Promise<string> {
     const url = await this._repository.findURL({ short_key: shortKey }, ['original_url']);

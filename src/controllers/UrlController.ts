@@ -1,5 +1,4 @@
 import { injectable } from 'inversify';
-import 'reflect-metadata';
 
 import { RequestHandler } from 'express';
 import URLService from '../services/UrlService';
@@ -7,11 +6,7 @@ import { responseFormat } from '../common/utilities';
 
 @injectable()
 export default class UrlController {
-  private _service: URLService;
-
-  constructor(service: URLService) {
-    this._service = service;
-  }
+  constructor(private readonly _service: URLService) {}
 
   public redirectToLongUrl: RequestHandler = async (req, res, next) => {
     const shortKey: string = req.params.id;

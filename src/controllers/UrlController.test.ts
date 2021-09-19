@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { getMockReq, getMockRes } from '@jest-mock/express';
 import { responseFormat } from '../common/utilities';
 import { applicationConfiguration } from '../config';

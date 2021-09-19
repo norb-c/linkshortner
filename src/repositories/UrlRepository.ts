@@ -1,6 +1,4 @@
 import { injectable } from 'inversify';
-import 'reflect-metadata';
-
 import { FindAttributeOptions, Transaction, WhereOptions } from 'sequelize';
 import { generateRandomString } from '../common/utilities';
 import { IURLAttributes, IURLRepository } from '../interfaces/url.interface';

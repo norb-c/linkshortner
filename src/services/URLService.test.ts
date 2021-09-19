@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { applicationConfiguration } from '../config';
 import { BadRequestError } from '../exceptions';
 import URLRepository from '../repositories/UrlRepository';
