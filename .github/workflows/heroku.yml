@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Build and Test
-      - timeout-minutes: 1 # Times out after 1 minute
+        timeout-minutes: 1 # Times out after 1 minute
         uses: actions/setup-node@v2
         with:
           node-version: 12.x
