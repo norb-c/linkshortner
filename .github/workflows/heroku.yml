@@ -10,7 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Build and Test
-        timeout-minutes: 1 # Times out after 1 minute
         uses: actions/setup-node@v2
         with:
           node-version: 12.x
@@ -22,6 +21,7 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
       - name: Push to heroku
+        timeout-minutes: 1 # Times out after 1 minute
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:push -a linkshortner-starter web
