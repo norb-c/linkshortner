@@ -8,10 +8,7 @@ import { Url } from '../models/Url';
 export default class URLRepository implements IURLRepository {
   private model = Url;
 
-  public async findURL(
-    whereOptions: WhereOptions<IURLAttributes>,
-    attributesOptions?: FindAttributeOptions
-  ): Promise<IURLAttributes> {
+  public async findURL(whereOptions: WhereOptions<IURLAttributes>, attributesOptions?: FindAttributeOptions): Promise<IURLAttributes> {
     return this.model.findOne({ where: whereOptions, ...(attributesOptions && { attributes: attributesOptions }) });
   }
 
@@ -23,7 +20,7 @@ export default class URLRepository implements IURLRepository {
     payload: Partial<IURLAttributes>,
     whereOptions: WhereOptions<IURLAttributes>,
     dbTransaction?: Transaction
-  ): Promise<[number, IURLAttributes[]]> {
+  ): Promise<[affectedCount: number]> {
     return this.model.update(payload, { where: whereOptions, ...(dbTransaction && { transaction: dbTransaction }) });
   }
 

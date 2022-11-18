@@ -16,7 +16,7 @@ export interface IURLRepository {
     payload: Partial<IURLAttributes>,
     whereOptions: WhereOptions<IURLAttributes>,
     dbTransaction?: Transaction
-  ): Promise<[number, IURLAttributes[]]>;
+  ): Promise<[affectedCount: number]>;
 
   deleteURL(id: number, dbTransaction?: Transaction): Promise<number>;
   generateUniqueShortKey(length?: number): Promise<string>;

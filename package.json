@@ -29,6 +29,7 @@
     "hpp": "^0.2.3",
     "inversify": "^5.1.1",
     "joi": "^17.4.2",
+    "lru-cache": "github:isaacs/node-lru-cache#pull/243",
     "mysql2": "^2.2.5",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
