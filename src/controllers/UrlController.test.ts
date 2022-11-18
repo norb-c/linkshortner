@@ -83,7 +83,7 @@ describe('UrlController', () => {
     await urlController.redirectToHome(req, null, next);
     expect(res.status).toHaveBeenCalledTimes(0);
     expect(next).toHaveBeenCalledTimes(1);
-    expect(next).toHaveBeenCalledWith(new TypeError("Cannot read property 'status' of null"));
+    expect(next).toHaveBeenCalledWith(new TypeError("Cannot read properties of null (reading 'status')"));
   });
 
   it('should create shork key successfully', async () => {
