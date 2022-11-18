@@ -14,12 +14,12 @@ const streamToElastic = pinoElastic({
 streamToElastic.on('error', error => {
   console.error('Elasticsearch client error:', error);
 });
-// Capture errors returned from Elasticsearch, "it will be called for everytime a document can't be indexed".
+// Capture errors returned from Elasticsearch, "it will be called for every time a document can't be indexed".
 streamToElastic.on('insertError', error => {
   console.error('Elasticsearch server error:', error);
 });
 
-const customStreams = applicationConfiguration.nodeEnv === 'development' ? streamToElastic : process.stdout;
+const customStreams = applicationConfiguration.nodeEnv === 'development' ? process.stdout : streamToElastic;
 
 const options: LoggerOptions = {
   redact: ['request.body.sensitive'],

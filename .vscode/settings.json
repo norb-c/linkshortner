@@ -4,5 +4,9 @@
   },
   "files.watcherExclude": {
     "**/dist": true
-  }
+  },
+  "cSpell.words": [
+    "linkshortner",
+    "loggly"
+  ]
 }

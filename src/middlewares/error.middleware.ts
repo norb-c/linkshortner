@@ -6,6 +6,7 @@ import { CelebrateError } from 'celebrate';
 import logger from '../common/logger';
 
 function handleErrors(err: Error, _req: Request, res: Response, _next: NextFunction): Response {
+  res.err = err;
   if (err instanceof DomainError) {
     return res.status(err.getHttpCode()).send({
       status: err.getStatus(),
@@ -43,8 +44,6 @@ function handleErrors(err: Error, _req: Request, res: Response, _next: NextFunct
       data: {}
     });
   }
-
-  logger.error('[Unhandled Error] => ', err);
 
   return res.status(500).send({
     status: false,

@@ -4,14 +4,20 @@ import { applicationConfiguration } from '../config';
 
 const requestLogger = httpLogger({
   logger,
+  genReqId: function (req) {
+    return req.id;
+  },
   serializers: {
     req: req => ({
       environment: applicationConfiguration.nodeEnv,
+      requestId: applicationConfiguration.nodeEnv,
+      appEnv: applicationConfiguration.nodeEnv,
+      serviceName: applicationConfiguration.nodeEnv,
       method: req.method,
       url: req.url,
       query: req.query,
-      body: JSON.stringify(req.raw.body),
-      ip: req.remoteAddress,
+      requestBody: req.raw.body,
+      ipAddress: req.remoteAddress,
       params: req.params
     }),
     res: res => ({
@@ -38,7 +44,8 @@ const requestLogger = httpLogger({
   customAttributeKeys: {
     req: 'request',
     res: 'response',
-    err: 'error'
+    err: 'error',
+    responseTime: 'timeTaken'
   }
 });
 
